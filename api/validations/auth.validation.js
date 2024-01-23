@@ -19,3 +19,14 @@ export const signUpValidationSchema = joi.object({
     "any.only": "Passwords do not match",
   }),
 });
+export const signInValidationSchema = joi.object({
+  email: joi.string().email().required().messages({
+    "string.empty": "email cannot be empty",
+    "string.email": "Invalid email address",
+  }),
+  password: joi.string().min(8).max(15).required().messages({
+    "string.empty": "password cannot be empty",
+    "string.min": "password must be have {#limit}",
+    "string.max": "password must be have {#limit}",
+  }),
+});
