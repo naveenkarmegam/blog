@@ -8,6 +8,7 @@ import Header from "./components/Header";
 import { Button } from 'flowbite-react';
 import About from "./pages/About";
 import Projects from "./pages/Projects";
+import FooterComponent from "./components/Footer";
 const App = () => {
   return (
     <BrowserRouter>
@@ -20,6 +21,7 @@ const App = () => {
         <Route path="/sign-in" element={<SignIn />} />
         <Route path="/dashboard" element={<Dashboard />} />
       </Routes>
+      <FooterComponent />
     </BrowserRouter>
   );
 };
