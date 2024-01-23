@@ -1,12 +1,12 @@
+import customError from "../utils/customError.js";
 
-const joiValidation =(schema)=>{
-    return (req,res,next)=>{
-        const {error} = schema.validate(req.body)
-        if(error){
-            console.log(error.details[0].message)
-            return res.status(400).json(error.details[0].message)
-        }
-        next()
+const joiValidation = (schema) => {
+  return (req, res, next) => {
+    const { error } = schema.validate(req.body);
+    if (error) {
+      return next(customError(400,error.details[0].message))
     }
-}
-export default joiValidation
+    next();
+  };
+};
+export default joiValidation;
