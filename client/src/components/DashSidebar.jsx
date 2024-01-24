@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Sidebar } from "flowbite-react";
-import {HiUser} from 'react-icons/hi'
+import {HiArrowCircleRight, HiUser} from 'react-icons/hi'
 import {useSelector } from 'react-redux'
 const DashSidebar = () => {
   const location = useLocation();
@@ -27,7 +27,7 @@ const DashSidebar = () => {
             icon={HiUser}
             >Profile</Sidebar.Item>
           </Link>
-          <Sidebar.Item>
+          <Sidebar.Item icon={HiArrowCircleRight} >
             Sign Out
           </Sidebar.Item>
         </Sidebar.ItemGroup>
