@@ -40,7 +40,6 @@ export const signIn = async (req, res, next) => {
     }
 
     const validPassword = bcryptjs.compareSync(password, validUser.password);
-    console.log('hai')
     if (!validPassword) {
       return next(customError(404, "Invalid Credentials"));
     }
