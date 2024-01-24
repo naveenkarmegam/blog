@@ -1,26 +1,30 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import { Alert, Button, Label, Spinner, TextInput } from "flowbite-react";
+import {
+  signInStart,
+  signInSuccess,
+  signInFailure,
+} from "../redux/user/userSlice.js";
+
 const SignIn = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({});
-  const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(false);
+  const dispatch = useDispatch();
+  const { loading, error } = useSelector(state=>state.user);
+
   const handleChange = (event) => {
     setFormData({ ...formData, [event.target.id]: event.target.value.trim() });
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    if (
-      !formData.email ||
-      !formData.password
-    ) {
+    if (!formData.email || !formData.password) {
       return setError(`Please fill all the fields`);
     }
     try {
-      setError(null)
-      setLoading(true);
+      dispatch(signInStart());
       const response = await fetch("/api/auth/sign-in", {
         method: "POST",
         headers: {
@@ -29,16 +33,15 @@ const SignIn = () => {
         body: JSON.stringify(formData),
       });
       const data = await response.json();
-      setLoading(false);
       if (data.success === false) {
-        return setError(data.message);
+        return dispatch(signInFailure(data.message));
       }
       if (response.ok) {
+        dispatch(signInSuccess(data));
         navigate("/");
       }
     } catch (error) {
-      setLoading(false);
-      setError(error.message);
+      dispatch(signInFailure(error.message));
     }
   };
   return (
@@ -77,20 +80,20 @@ const SignIn = () => {
               />
             </div>
             <Button gradientDuoTone={"purpleToPink"} type="submit">
-            {
-                loading ? (
-                  <>
+              {loading ? (
+                <>
                   <Spinner size="sm" />
                   <span className="pl-3">loading..</span>
-                  </>
-                ) :"Sign In"
-              }
+                </>
+              ) : (
+                "Sign In"
+              )}
             </Button>
           </form>
           <div className="flex gap-2 text-sm mt-5">
             <span>Don't have an account?</span>
             <Link to={"/sign-up"} className="text-blue-500">
-            Sign Up
+              Sign Up
             </Link>
           </div>
           {error && (
