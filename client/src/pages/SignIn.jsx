@@ -22,7 +22,7 @@ const SignIn = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     if (!formData.email || !formData.password) {
-      return setError(`Please fill all the fields`);
+      return dispatch(signInFailure(`Please fill all the fields`));
     }
     try {
       dispatch(signInStart());

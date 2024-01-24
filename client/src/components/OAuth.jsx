@@ -9,9 +9,11 @@ import {
   signInFailure,
 } from "../redux/user/userSlice.js";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const OAuth = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { loading } = useSelector((state) => state.user);
   const logInWithGoogle = async () => {
     try {
@@ -29,7 +31,8 @@ const OAuth = () => {
           token: googleResponse.user.accessToken,
         }),
       });
-      const data = response.json();
+      const data = await response.json();
+      console.log(data)
       if (data.success === false) {
         return dispatch(signInFailure(data.message));
       }
@@ -39,7 +42,7 @@ const OAuth = () => {
       }
     } catch (error) {
       console.log(error);
-      dispatch(signInFailure(data.message));
+      dispatch(signInFailure(data.message)); 
     }
   };
   return (
