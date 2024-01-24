@@ -81,7 +81,6 @@ export const logInWithGoogle = async (req, res, next) => {
           password: hashedPassword,
           profilePicture: decodedToken.picture,
         });
-        console.log(newUser)
         await newUser.save();
         const token = jwt.sign(
           { id: newUser._id },
