@@ -19,6 +19,7 @@ import {
   updateUserSuccess,
 } from "../redux/user/userSlice";
 import { HiOutlineExclamationCircle } from 'react-icons/hi';
+import { Link } from "react-router-dom";
 
 const DashProfile = ({handleSignOut}) => {
   const filePickerRef = useRef();
@@ -211,9 +212,18 @@ const DashProfile = ({handleSignOut}) => {
           placeholder="password"
           onChange={handleChange}
         />
-        <Button type="submit" gradientDuoTone="purpleToBlue" outline>
+        <Button type="submit" gradientDuoTone="purpleToBlue" outline disabled={loading||imageFileUploading}>
           {loading ? "loading.." : "Update"}
         </Button>
+        {
+          currentUser.isAdmin && (
+            <Link to={'/create-post'}>
+            <Button gradientDuoTone={'purpleToPink'} type="button" className="w-full">
+              Create a Post
+            </Button>
+            </Link>
+          )
+        }
       </form>
       <div className="text-red-500 flex justify-between mt-5">
         <span className="cursor-pointer" onClick={()=>setShowModal(true)}>Delete Account</span>
