@@ -8,5 +8,7 @@ export const postValidationSchema = joi.object({
     content: joi.string().min(3).required().messages({
         'string.empty': '{{#label}} is not allowed to be empty',
         'string.min': '{{#label}} length must be at least {{#limit}} characters long',
-    })
+    }),
+    image: joi.string(),
+    category: joi.string(),
   });
