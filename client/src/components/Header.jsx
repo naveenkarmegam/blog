@@ -1,15 +1,38 @@
-import { Avatar, Button, Dropdown, DropdownItem, Navbar, TextInput } from "flowbite-react";
+import {
+  Avatar,
+  Button,
+  Dropdown,
+  DropdownItem,
+  Navbar,
+  TextInput,
+} from "flowbite-react";
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
 import { AiOutlineSearch } from "react-icons/ai";
 import { FaMoon, FaSun } from "react-icons/fa";
 import { useSelector, useDispatch } from "react-redux";
 import { toggleThemeMode } from "../redux/theme/themeSlice";
+import { signOutSuccess } from "../redux/user/userSlice";
 const Header = () => {
   const { pathname } = useLocation();
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const { currentUser } = useSelector((state) => state.user);
   const { theme } = useSelector((state) => state.theme);
+  const handleSignOut = async () => {
+    try {
+      const response = await fetch("api/user/sign-out", {
+        method: "POST",
+      });
+      const data = await response.json();
+      if (!response.ok) {
+        console.log(data.message);
+      } else {
+        dispatch(signOutSuccess());
+      }
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
   return (
     <Navbar>
       <Link
@@ -33,10 +56,11 @@ const Header = () => {
         <AiOutlineSearch />
       </Button>
       <div className="flex gap-2 md:order-2">
-        <Button className="w-12 h-10 hidden sm:inline" onClick={()=>dispatch(toggleThemeMode())}>
-          {
-            theme === 'light' ? <FaSun /> : <FaMoon />
-          }
+        <Button
+          className="w-12 h-10 hidden sm:inline"
+          onClick={() => dispatch(toggleThemeMode())}
+        >
+          {theme === "light" ? <FaSun /> : <FaMoon />}
         </Button>
         {currentUser ? (
           <Dropdown
@@ -48,18 +72,15 @@ const Header = () => {
           >
             <Dropdown.Header>
               <span className="block text-sm">@{currentUser.username}</span>
-              <span className="block text-sm font-bold truncate">@{currentUser.email}</span>
+              <span className="block text-sm font-bold truncate">
+                @{currentUser.email}
+              </span>
             </Dropdown.Header>
-            <Link to={'/dashboard?tab=profile'}>
-            <Dropdown.Item>
-              Profile
-            </Dropdown.Item>
+            <Link to={"/dashboard?tab=profile"}>
+              <Dropdown.Item>Profile</Dropdown.Item>
             </Link>
             <Dropdown.Divider />
-            <DropdownItem>
-              Sign Out
-            </DropdownItem>
-
+            <DropdownItem onClick={handleSignOut}>Sign Out</DropdownItem>
           </Dropdown>
         ) : (
           <Link to={"/sign-in"}>

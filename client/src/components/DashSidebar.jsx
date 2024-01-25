@@ -3,7 +3,7 @@ import { Link, useLocation } from "react-router-dom";
 import { Sidebar } from "flowbite-react";
 import {HiArrowCircleRight, HiUser} from 'react-icons/hi'
 import {useSelector } from 'react-redux'
-const DashSidebar = () => {
+const DashSidebar = ({handleSignOut}) => {
   const location = useLocation();
   const {theme} =useSelector(state=>state.theme);
   const [tab, setTab] = useState("");
@@ -27,7 +27,7 @@ const DashSidebar = () => {
             icon={HiUser}
             >Profile</Sidebar.Item>
           </Link>
-          <Sidebar.Item icon={HiArrowCircleRight} >
+          <Sidebar.Item icon={HiArrowCircleRight} onClick={handleSignOut} >
             Sign Out
           </Sidebar.Item>
         </Sidebar.ItemGroup>

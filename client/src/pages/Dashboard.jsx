@@ -2,9 +2,12 @@ import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import DashSidebar from "../components/DashSidebar";
 import DashProfile from "../components/DashProfile";
+import { signOutSuccess } from "../redux/user/userSlice";
+import { useDispatch } from "react-redux";
 const Dashboard = () => {
   const location = useLocation();
   const [tab, setTab] = useState("");
+  const dispatch = useDispatch();
   useEffect(() => {
     const urlParams = new URLSearchParams(location.search);
     const tabValue = urlParams.get("tab");
@@ -12,14 +15,27 @@ const Dashboard = () => {
       setTab(tabValue);
     }
   }, [location.search]);
+  const handleSignOut = async () => {
+    try {
+      const response = await fetch("api/user/sign-out", {
+        method: "POST",
+      });
+      const data = await response.json();
+      if (!response.ok) {
+        console.log(data.message);
+      } else {
+        dispatch(signOutSuccess());
+      }
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
   return (
     <div className="min-h-screen flex flex-col md:flex-row">
       <div className="md:w-56">
-        <DashSidebar />
+        <DashSidebar handleSignOut={handleSignOut} />
       </div>
-      {
-        tab === 'profile' && <DashProfile />
-      }
+      {tab === "profile" && <DashProfile handleSignOut={handleSignOut} />}
     </div>
   );
 };

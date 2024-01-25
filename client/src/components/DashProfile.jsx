@@ -20,7 +20,7 @@ import {
 } from "../redux/user/userSlice";
 import { HiOutlineExclamationCircle } from 'react-icons/hi';
 
-const DashProfile = () => {
+const DashProfile = ({handleSignOut}) => {
   const filePickerRef = useRef();
   const dispatch = useDispatch();
   const { currentUser, loading, error } = useSelector((state) => state.user);
@@ -217,7 +217,7 @@ const DashProfile = () => {
       </form>
       <div className="text-red-500 flex justify-between mt-5">
         <span className="cursor-pointer" onClick={()=>setShowModal(true)}>Delete Account</span>
-        <span className="cursor-pointer">Sign Out</span>
+        <span className="cursor-pointer" onClick={handleSignOut}>Sign Out</span>
       </div>
       {
         updateSuccess && (
