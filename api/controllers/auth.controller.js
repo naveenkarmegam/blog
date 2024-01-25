@@ -44,7 +44,10 @@ export const signIn = async (req, res, next) => {
     if (!validPassword) {
       return next(customError(404, "Invalid Credentials"));
     }
-    const token = jwt.sign({ id: validUser._id }, process.env.JWT_SECRETE_KEY);
+    const token = jwt.sign(
+      { id: validUser._id, admin: validUser.isAdmin },
+      process.env.JWT_SECRETE_KEY
+    );
     const { password: pass, ...rest } = validUser._doc;
     res
       .status(200)
@@ -62,7 +65,10 @@ export const logInWithGoogle = async (req, res, next) => {
     if (decodedToken.email) {
       const user = await User.findOne({ email: decodedToken.email });
       if (user) {
-        const token = jwt.sign({ id: user._id }, process.env.JWT_SECRETE_KEY);
+        const token = jwt.sign(
+          { id: user._id, admin: validUser.isAdmin },
+          process.env.JWT_SECRETE_KEY
+        );
         const { password: pass, ...rest } = user._doc;
         res
           .status(200)
@@ -83,7 +89,7 @@ export const logInWithGoogle = async (req, res, next) => {
         });
         await newUser.save();
         const token = jwt.sign(
-          { id: newUser._id },
+          { id: newUser._id, admin: validUser.isAdmin },
           process.env.JWT_SECRETE_KEY
         );
         const { password: pass, ...rest } = newUser._doc;
