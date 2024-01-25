@@ -1,5 +1,5 @@
 import express from "express";
-import verifyAuthToken from "../middleware/verifyAuthToken.js";
+import {verifyAuthToken} from "../middleware/verifyAuthToken.js";
 import { updateValidationSchema } from "../validations/user.validation.js";
 import joiValidation from "../middleware/joiValidation.js";
 import { deleteUser, signOut, updateUser } from "../controllers/user.controller.js";

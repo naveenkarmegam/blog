@@ -1,7 +1,7 @@
 import jwt from "jsonwebtoken";
 import  customError  from "../utils/customError.js";
 
-const verifyAuthToken = (req, res, next) => {
+export const verifyAuthToken = (req, res, next) => {
   const token = req.cookies.access_token;
   if (!token) {
     return next(customError(401, "Unauthorized"));
@@ -14,5 +14,13 @@ const verifyAuthToken = (req, res, next) => {
     next();
   });
 };
+export const isAdmin = (req, res, next) => {
+  const {admin}=req.user
+    if(!admin){
+      return next(customError(401,'you are not able to access '))
+    }
+    next();
 
-export default verifyAuthToken;
+};
+
+
