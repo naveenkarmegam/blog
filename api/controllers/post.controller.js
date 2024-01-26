@@ -1,5 +1,5 @@
 import Post from "../model/post.model.js";
-import customError from '../utils/customError.js'
+import customError from "../utils/customError.js";
 
 export const createPost = async (req, res, next) => {
   try {
@@ -58,30 +58,52 @@ export const getPost = async (req, res, next) => {
       now.getMonth() - 1,
       now.getDate()
     );
-    
+
     const lastMonthPosts = await Post.countDocuments({
-      createdAt:{$gte:oneMonthAgo}
-    })
+      createdAt: { $gte: oneMonthAgo },
+    });
 
     res.status(200).json({
       posts,
       totalPosts,
-      lastMonthPosts
-    })
+      lastMonthPosts,
+    });
   } catch (error) {
     next(error);
   }
 };
 
-export const deletePost = async(req,res,next)=>{
-try {
-  console.log(req.user.isAdmin,req.user.id,req.params.userId)
-  if (!req.user.admin || req.user.id !== req.params.userId) {
-    return next(customError(403, 'You are not allowed to delete this post'));
+export const deletePost = async (req, res, next) => {
+  try {
+    if (!req.user.admin || req.user.id !== req.params.userId) {
+      return next(customError(403, "You are not allowed to delete this post"));
+    }
+    await Post.findByIdAndDelete(req.params.postId);
+    res.status(200).json("The post has been deleted");
+  } catch (error) {
+    next(error);
   }
-  await Post.findByIdAndDelete(req.params.userId)
-  res.status(200).json('The post has been deleted')
-} catch (error) {
-  next(error)
-}
-}
+};
+
+export const updatePost = async (req, res, next) => {
+  try {
+    if (!req.user.admin || req.user.id !== req.params.userId) {
+      return next(customError(403, "You are not allowed to delete this post"));
+    }
+    const updatedPost = await Post.findByIdAndUpdate(
+      req.params.postId,
+      {
+        $set: {
+          title: req.body.title,
+          content: req.body.content,
+          category: req.body.category,
+          image: req.body.image,
+        },
+      },
+      { new: true }
+    );
+    res.status(200).json(updatedPost);
+  } catch (error) {
+    next(error);
+  }
+};
