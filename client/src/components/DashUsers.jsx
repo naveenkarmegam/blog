@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Table, Modal, Button } from "flowbite-react";
 import { HiOutlineExclamationCircle } from "react-icons/hi";
-import { FaCheck, FaTimes } from 'react-icons/fa';
+import { FaCheck, FaTimes } from "react-icons/fa";
 const DashUsers = () => {
   const { currentUser } = useSelector((state) => state.user);
   const [users, setUsers] = useState([]);
@@ -12,9 +12,7 @@ const DashUsers = () => {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await fetch(
-          `/api/user/get-users`
-        );
+        const response = await fetch(`/api/user/get-users`);
         const data = await response.json();
         if (response.ok) {
           setUsers(data.users);
@@ -52,20 +50,15 @@ const DashUsers = () => {
 
   const handleDeleteUser = async () => {
     try {
-      setShowModal(false)
-      const response = await fetch(
-        `/api/user/delete-user/${deleteUserId}`,
-        {
-          method: "DELETE",
-        }
-      );
+      setShowModal(false);
+      const response = await fetch(`/api/user/delete-user/${deleteUserId}`, {
+        method: "DELETE",
+      });
       const data = await response.json();
       if (!response.ok) {
         console.log(data.message);
       } else {
-        setUsers((prev) =>
-          prev.filter((user) => user._id !== deleteUserId)
-        );
+        setUsers((prev) => prev.filter((user) => user._id !== deleteUserId));
       }
     } catch (error) {
       console.log(error);
@@ -77,7 +70,7 @@ const DashUsers = () => {
         <>
           <Table hoverable className="shadow-md">
             <Table.Head>
-            <Table.HeadCell>Date created</Table.HeadCell>
+              <Table.HeadCell>Date created</Table.HeadCell>
               <Table.HeadCell>User image</Table.HeadCell>
               <Table.HeadCell>Username</Table.HeadCell>
               <Table.HeadCell>Email</Table.HeadCell>
@@ -91,19 +84,19 @@ const DashUsers = () => {
                     {new Date(user.createdAt).toLocaleDateString()}
                   </Table.Cell>
                   <Table.Cell>
-                  <img
+                    <img
                       src={user.profilePicture}
                       alt={user.username}
-                      className='w-10 h-10 object-cover bg-gray-500 rounded-full'
+                      className="w-10 h-10 object-cover bg-gray-500 rounded-full"
                     />
                   </Table.Cell>
                   <Table.Cell>{user.username}</Table.Cell>
                   <Table.Cell>{user.email}</Table.Cell>
                   <Table.Cell>
                     {user.isAdmin ? (
-                      <FaCheck className='text-green-500' />
+                      <FaCheck className="text-green-500" />
                     ) : (
-                      <FaTimes className='text-red-500' />
+                      <FaTimes className="text-red-500" />
                     )}
                   </Table.Cell>
                   <Table.Cell>

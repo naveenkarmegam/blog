@@ -64,6 +64,14 @@ export const deleteUser = async (req, res, next) => {
     next(error);
   }
 };
+export const deleteUserAccount = async (req, res, next) => {
+  try {
+    const deletedUser = await User.findByIdAndDelete(req.params.id);
+    res.json({ message: "your account successfully deleted" });
+  } catch (error) {
+    next(error);
+  }
+};
 
 export const signOut = async (req, res, next) => {
   try {
@@ -80,7 +88,7 @@ export const getUser = async (req, res, next) => {
   try {
     const startIndex = parseInt(req.query.startIndex) || 0;
     const limit = parseInt(req.query.limit) || 9;
-    const sortDirection =  req.query.sort === "asc" ? 1 : -1;
+    const sortDirection = req.query.sort === "asc" ? 1 : -1;
     const users = await User.find()
       .sort({
         createdAt: sortDirection,
@@ -107,7 +115,7 @@ export const getUser = async (req, res, next) => {
     });
 
     res.status(200).json({
-      users:usersWithoutPassword,
+      users: usersWithoutPassword,
       totalUser,
       lastMonthUsers,
     });
