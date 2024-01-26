@@ -13,8 +13,9 @@ export const createComment = async(req,res,next)=>{
             userId
         })
         await newComment.save()
-        req.status(200).json(newComment)
+        res.status(200).json(newComment)
     } catch (error) {
         next(error)
+        console.log(error)
     }
 }
