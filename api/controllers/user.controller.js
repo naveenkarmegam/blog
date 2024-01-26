@@ -65,13 +65,53 @@ export const deleteUser = async (req, res, next) => {
   }
 };
 
-export const signOut = async (req,res,next)=>{
+export const signOut = async (req, res, next) => {
   try {
     res
-      .clearCookie('access_token')
+      .clearCookie("access_token")
       .status(200)
-      .json('User has been signed out');
+      .json("User has been signed out");
   } catch (error) {
     next(error);
   }
-}
+};
+
+export const getUser = async (req, res, next) => {
+  try {
+    const startIndex = parseInt(req.query.startIndex) || 0;
+    const limit = parseInt(req.query.limit) || 9;
+    const sortDirection =  req.query.sort === "asc" ? 1 : -1;
+    const users = await User.find()
+      .sort({
+        createdAt: sortDirection,
+      })
+      .skip(startIndex)
+      .limit(limit);
+    const usersWithoutPassword = users.map((user) => {
+      const { password, ...rest } = user._doc;
+      return rest;
+    });
+
+    const totalUser = await User.countDocuments();
+
+    const now = new Date();
+
+    const oneMonthAgo = new Date(
+      now.getFullYear(),
+      now.getMonth() - 1,
+      now.getDay()
+    );
+
+    const lastMonthUsers = await User.countDocuments({
+      createdAt: { $gte: oneMonthAgo },
+    });
+
+    res.status(200).json({
+      users:usersWithoutPassword,
+      totalUser,
+      lastMonthUsers,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
