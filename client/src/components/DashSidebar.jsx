@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Sidebar } from "flowbite-react";
-import {HiArrowCircleRight, HiDocumentText, HiUser} from 'react-icons/hi'
+import {HiArrowCircleRight, HiDocumentText, HiUser, HiUserGroup} from 'react-icons/hi'
 import {useSelector } from 'react-redux'
 const DashSidebar = ({handleSignOut}) => {
   const location = useLocation();
@@ -36,6 +36,17 @@ const DashSidebar = ({handleSignOut}) => {
               as='div'
               icon={HiDocumentText}
               >Post</Sidebar.Item>
+            </Link>
+            )
+          }
+          {
+            currentUser.isAdmin && (
+              <Link to={"/dashboard?tab=users"}>
+              <Sidebar.Item
+              active={tab==='users'}
+              as='div'
+              icon={HiUserGroup}
+              >Users</Sidebar.Item>
             </Link>
             )
           }
