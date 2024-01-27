@@ -30,6 +30,8 @@ const DashSidebar = ({handleSignOut}) => {
           </Link>
           {
             currentUser.isAdmin && (
+              <>
+             
               <Link to={"/dashboard?tab=post"}>
               <Sidebar.Item
               active={tab==='post'}
@@ -37,10 +39,6 @@ const DashSidebar = ({handleSignOut}) => {
               icon={HiDocumentText}
               >Post</Sidebar.Item>
             </Link>
-            )
-          }
-          {
-            currentUser.isAdmin && (
               <Link to={"/dashboard?tab=users"}>
               <Sidebar.Item
               active={tab==='users'}
@@ -48,6 +46,14 @@ const DashSidebar = ({handleSignOut}) => {
               icon={HiUserGroup}
               >Users</Sidebar.Item>
             </Link>
+              <Link to={"/dashboard?tab=comment"}>
+              <Sidebar.Item
+              active={tab==='comment'}
+              as='div'
+              icon={HiUserGroup}
+              >Comment</Sidebar.Item>
+            </Link>
+            </>
             )
           }
           <Sidebar.Item icon={HiArrowCircleRight} onClick={handleSignOut} >

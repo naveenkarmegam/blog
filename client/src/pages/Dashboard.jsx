@@ -6,6 +6,7 @@ import { signOutSuccess } from "../redux/user/userSlice";
 import { useDispatch } from "react-redux";
 import DashPost from "../components/DashPost";
 import DashUsers from "../components/DashUsers";
+import DashComments from "../components/DashComment";
 const Dashboard = () => {
   const location = useLocation();
   const [tab, setTab] = useState("");
@@ -40,6 +41,7 @@ const Dashboard = () => {
       {tab === "profile" && <DashProfile handleSignOut={handleSignOut} />}
       {tab === "post" && <DashPost />}
       {tab === "users" && <DashUsers />}
+      {tab === "comment" && <DashComments />}
     </div>
   );
 };
