@@ -18,5 +18,5 @@ router.delete("/delete/:id", verifyAuthToken, isAdmin, deleteUser);
 router.post("/sign-out", signOut);
 router.get("/get-users", verifyAuthToken, isAdmin, getUser);
 router.delete("/delete-user/:id", verifyAuthToken, isAdmin, deleteUserAccount);
-router.get('/comment/:id',getCommentUser)
+router.get('/comments/:id',getCommentUser)
 export default router;
