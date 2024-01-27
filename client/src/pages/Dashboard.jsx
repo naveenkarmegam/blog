@@ -7,6 +7,7 @@ import { useDispatch } from "react-redux";
 import DashPost from "../components/DashPost";
 import DashUsers from "../components/DashUsers";
 import DashComments from "../components/DashComment";
+import DashboardComp from "../components/DashboardComp";
 const Dashboard = () => {
   const location = useLocation();
   const [tab, setTab] = useState("");
@@ -42,6 +43,7 @@ const Dashboard = () => {
       {tab === "post" && <DashPost />}
       {tab === "users" && <DashUsers />}
       {tab === "comment" && <DashComments />}
+      {tab === "dash" && <DashboardComp />}
     </div>
   );
 };
