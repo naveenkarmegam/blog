@@ -5,6 +5,7 @@ import joiValidation from "../middleware/joiValidation.js";
 import {
   deleteUser,
   deleteUserAccount,
+  getCommentUser,
   getUser,
   signOut,
   updateUser,
@@ -17,4 +18,5 @@ router.delete("/delete/:id", verifyAuthToken, isAdmin, deleteUser);
 router.post("/sign-out", signOut);
 router.get("/get-users", verifyAuthToken, isAdmin, getUser);
 router.delete("/delete-user/:id", verifyAuthToken, isAdmin, deleteUserAccount);
+router.get('/comment/:id',getCommentUser)
 export default router;
