@@ -69,7 +69,7 @@ const CreatePost = () => {
       if (!response.ok) {
         return setPublishError(data.message);
       }
-      navigate(`/create-post/${data.slug}`);
+      navigate(`/post/${data.slug}`);
     } catch (error) {
       setPublishError(error.message);
     }
@@ -96,9 +96,13 @@ const CreatePost = () => {
             }
           >
             <option value="uncategorized">Select a Category</option>
+            <option value="html">Html</option>
+            <option value="css">Css</option>
             <option value="javascript">Javascript</option>
             <option value="reactjs">Reactjs</option>
             <option value="nextjs">Nextjs</option>
+            <option value="nodejs">Nodejs</option>
+            <option value="mongodb">MongoDb</option>
           </Select>
         </div>
         <div className="flex gap-4 items-center justify-between border-4 border-teal-500 border-dotted p-3">

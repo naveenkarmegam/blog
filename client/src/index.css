@@ -12,6 +12,7 @@ body {
 
 .post-content p {
   margin-bottom: 0.5rem;
+  text-indent: 30px;
 }
 
 .post-content h1 {
@@ -36,6 +37,9 @@ body {
   text-decoration: underline;
 }
 
+.post-content ol li{
+  list-style-type:numeric;
+}
 .dark .post-content a {
   color: red;
 }

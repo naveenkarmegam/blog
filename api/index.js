@@ -2,6 +2,7 @@ import express from "express";
 import dotenv from "dotenv";
 import morgan from "morgan";
 import cookieParser from "cookie-parser";
+import path from 'path';
 
 import connectDatabase from "./database/database.js";
 
@@ -14,6 +15,7 @@ import errorHandler from "./middleware/errorHandler.js";
 const app = express();
 dotenv.config();
 const PORT = 3000;
+const __dirname = path.resolve();
 
 app.use(morgan("tiny"));
 app.use(express.json());
@@ -26,7 +28,13 @@ app.use("/api/comment", commentRoute);
 
 connectDatabase(process.env.MONGO_URI);
 
-app.use(errorHandler);
+app.use(express.static(path.join(__dirname, "/client/dist"))); 
+app.get("*", (req, res) =>{
+  res.sendFile(path.join(__dirname, 'client', 'dist', 'index.html'));
+})
+
 app.listen(PORT, () => {
   console.log(`sever running on the port ${PORT}....`);
 });
+
+app.use(errorHandler);

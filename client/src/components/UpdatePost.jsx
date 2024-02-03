@@ -77,7 +77,7 @@ const UpdatePost = () => {
     try {
       setPublishError(null);
       const response = await fetch(
-        `/api/post/update-post/${formData._id}/${currentUser._id}`,
+        `/api/post/update-post/${postId}/${currentUser._id}`,
         {
           method: "PUT",
           headers: {
@@ -91,7 +91,7 @@ const UpdatePost = () => {
       if (!response.ok) {
         return setPublishError(data.message);
       }
-      navigate(`/create-post/${data.slug}`);
+      navigate(`/post/${data.slug}`);
     } catch (error) {
       setPublishError("Something went wrong");
     }
